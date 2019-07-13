@@ -1,28 +1,66 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <Header></Header>
+    <div class="w-128 mx-auto py-4">
+      <SearchInput/>
+      <Filters/>
+      <Results :offers="offers"/>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Header from './components/Header'
+import SearchInput from './components/SearchInput'
+import Filters from './components/Filters'
+import Results from './components/Results'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    Header,
+    SearchInput,
+    Filters,
+    Results
+  },
+  data(){
+    return {
+      offers: []
+    }
+  },
+  mounted() {
+    this.fetchOffers();
+  },
+  methods: {
+    fetchOffers() {
+      fetch('http://localhost:9200/job_board/_search', {
+        method: 'POST',
+        body: JSON.stringify(
+          {
+            "query": {
+              "multi_match": {
+                "query": "développeur",
+                "fields": ["title", "description"]
+              }
+            }
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        this.offers = data.hits.hits.map(offer => offer._source);
+      })
+      .catch(error => error)
+    }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  @import 'output.css';
+  * {
+    font-family: 'Nunito Sans', sans-serif;
+  }
 </style>
