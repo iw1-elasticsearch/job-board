@@ -33,7 +33,11 @@ export const store = new Vuex.Store({
       })
       .catch(error => error)
     },
-    fetchOffersByQuery({commit}, query){
+    fetchOffersByQuery({dispatch, commit}, query){
+      if(query === ""){
+        dispatch('fetchOffers');
+        return
+      }
       fetchGet({
         "query": {
           "bool": {

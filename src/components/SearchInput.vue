@@ -18,9 +18,4 @@
       ])
     }
   }
-
 </script>
-
-<style scoped>
-
-</style>
