@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col">
-        <input type="range" :min="min" :max="max" :step="step" v-model="from">
-        <input type="range" :min="min" :max="max" :step="step" v-model="to">
+        <input class="py-1" type="range" :min="min" :max="max" :step="step" v-model="from">
+        <input class="py-1" type="range" :min="min" :max="max" :step="step" v-model="to">
         <span>De {{ from }} à {{ to }}</span>
     </div>
 </template>
