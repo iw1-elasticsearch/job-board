@@ -8,12 +8,18 @@ export const store = new Vuex.Store({
   state: {
     offers: [],
     query: '',
-    filterTerms: []
+    filterTerms: [],
+    filterRanges: [
+      { "range": { "salary": { "gte": 30000, "lte": 60000 } } },
+      { "range": { "nb_employees": { "gte": 10, "lte": 500 } } },
+    ],
   },
   getters: {
+    countOffers: state => state.offers.length,
     offers: state => state.offers,
     query: state => state.query,
     filterTerms: state => state.filterTerms,
+    filterRanges: state => state.filterRanges
   },
   mutations: {
     setOffers(state, offers) {
@@ -31,6 +37,14 @@ export const store = new Vuex.Store({
       }
       const newTerm = {term : { [`${term}.keyword`]: value } };
       state.filterTerms = [ ...state.filterTerms, newTerm ]
+    },
+    setFilterRanges(state, {name, from, to}){
+      state.filterRanges.forEach(filter => {
+        if(name in filter.range){
+          filter.range[name]['gte'] = from;
+          filter.range[name]['lte'] = to;
+        }
+      });
     }
   },
   actions: {
@@ -41,7 +55,10 @@ export const store = new Vuex.Store({
           "bool": {
             "must": {
               "match_all": {}
-            }
+            },
+            "filter": [
+              ...state.filterRanges
+            ]
           }
         }
       };
@@ -53,7 +70,7 @@ export const store = new Vuex.Store({
         }
       }
       if(Object.entries(state.filterTerms).length > 0){
-        body.query.bool.filter = [state.filterTerms];
+        body.query.bool.filter = [...body.query.bool.filter, state.filterTerms];
       }
       console.log(JSON.stringify(body, null, 2));
       fetchGet(body)
@@ -71,62 +88,10 @@ export const store = new Vuex.Store({
       commit('setFilterTerms', payload);
       dispatch('fetchOffers');
     },
-    
-    
-    //
-    // fetchOffersByQuery({dispatch, commit}, query){
-    //   if(query === ""){
-    //     dispatch('fetchOffers');
-    //     return
-    //   }
-    //   let body = {
-    //     "query": {
-    //       "bool": {
-    //         "must": {
-    //           "multi_match": {
-    //             "query": query,
-    //             "fields": ["title", "description", "company", "job_title", "skills", "contract"]
-    //           }
-    //         }
-    //       }
-    //     }
-    //   };
-    //   fetchGet(body)
-    //   .then(data => {
-    //     const offers = data.hits.hits.map(offer => offer._source);
-    //     commit('setOffers', offers);
-    //   })
-    //   .catch(error => error)
-    // },
-    // fetchOffersByFilter({ commit }, [term, value]) {
-    //   console.log(JSON.stringify({
-    //     "query": {
-    //       "bool": {
-    //         "filter": {
-    //           "term": {
-    //             [`${term}.keyword`]: value,
-    //           }
-    //         }
-    //       }
-    //     }
-    //   }));
-    //   fetchGet({
-    //     "query": {
-    //       "bool": {
-    //         "filter": {
-    //           "term": {
-    //             [`${term}.keyword`]: value,
-    //           }
-    //         }
-    //       }
-    //     }
-    //   })
-    //   .then(data => {
-    //     const offers = data.hits.hits.map(offer => offer._source);
-    //     commit('setOffers', offers);
-    //   })
-    //   .catch(error => error)
-    // }
+    setFilterRanges({commit, dispatch}, payload){
+      commit('setFilterRanges', payload);
+      dispatch('fetchOffers')
+    }
   }
 });
 

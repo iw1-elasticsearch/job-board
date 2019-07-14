@@ -24,12 +24,12 @@
             </div>
             <div class="w-1/2">
                 <FormGroup :label-name="nb_employees.label">
-                    <InputRange :min="nb_employees.min" :max="nb_employees.max"/>
+                    <InputRange :min="nb_employees.min" :max="nb_employees.max" :name="nb_employees.name"/>
                 </FormGroup>
             </div>
             <div class="w-1/2">
                 <FormGroup :label-name="salary.label">
-                    <InputRange :min="salary.min" :max="salary.max" :step="salary.step"/>
+                    <InputRange :min="salary.min" :max="salary.max" :step="salary.step" :name="salary.name"/>
                 </FormGroup>
             </div>
         </div>
@@ -70,8 +70,8 @@
         nb_employees: {
           name: 'nb_employees',
           label: "Nombre d'employées",
-          min: 50,
-          max: 250,
+          min: 10,
+          max: 500,
           step: 50,
         },
         salary: {

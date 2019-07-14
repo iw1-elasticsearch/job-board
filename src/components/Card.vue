@@ -3,7 +3,8 @@
         <div class="w-full rounded shadow-lg">
             <div class="flex items-center justify-center flex-col p-3 bg-green-300 rounded-t">
                 <p class="text-green-900 font-bold text-2xl">{{ offer.company }}</p>
-                <p class="text-green-900 font-semibold text-lg">{{ offer.title }}</p>
+                <p class="text-green-800 font-semibold text-lg">{{ offer.title }}</p>
+                <p class="text-green-700 font-semibold">{{ offer.salary }} €</p>
             </div>
             <div class="p-4 w-4/5 mx-auto text-gray-600">
                 <p class="font-semibold text-lg text-center mb-4 text-gray-800">{{ offer.contract }} • {{ offer.job_title }} • {{ offer.city }}</p>
