@@ -16,8 +16,8 @@
     },
     data() {
       return {
-        from: this.max/2,
-        to: this.max/2
+        from: this.min,
+        to: this.max
       }
     }
   }

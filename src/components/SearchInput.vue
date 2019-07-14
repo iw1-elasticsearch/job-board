@@ -1,6 +1,6 @@
 <template>
     <input type="text" placeholder="Rechercher un job !"
-           class="w-full bg-gray-200 rounded p-4" v-model="value" @change.prevent="fetchOffersByQuery(value)">
+           class="w-full bg-gray-200 rounded p-4" v-model="value" @change.prevent="setQuery(value)">
 </template>
 
 <script>
@@ -13,9 +13,7 @@
       }
     },
     methods: {
-      ...mapActions([
-        'fetchOffersByQuery'
-      ])
+      ...mapActions(['setQuery'])
     }
   }
 </script>

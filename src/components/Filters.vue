@@ -60,7 +60,7 @@
         job_title: {
           name: 'job_title',
           label: "Profession",
-          options: ["Developpeur Back", "Développeur Front", "Développeur FullStack"]
+          options: ["Développeur Back", "Développeur Front", "Développeur FullStack"]
         },
         city: {
           name: 'city',
