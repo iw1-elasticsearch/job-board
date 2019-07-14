@@ -18,9 +18,9 @@
                 <div v-if="showInfos" class="mt-4">
                     <div class="flex flex-col justify-center items-center mb-3">
                         <p class="mr-2"> <span class="font-bold">{{ offer.nb_employees }}</span> employés</p>
-                        <p>{{ offer.start_date }}</p>
+                        <p>Débute le {{ offer.start_date }}</p>
                     </div>
-                    <p>{{ offer.description }}</p>
+                    <p class="text-center">{{ offer.description }}</p>
                 </div>
             </div>
         </div>
