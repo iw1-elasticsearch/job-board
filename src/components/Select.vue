@@ -1,6 +1,6 @@
 <template>
     <select name="" id="" class="bg-gray-300 p-2 rounded" v-model="value"
-            @change.prevent="setFilterTerms({term: name, value: value})"
+            @change.prevent="onChange"
     >
         <option value=""></option>
         <option :value="option" :key="index" v-for="(option, index) in options">{{ option }}</option>
@@ -22,11 +22,10 @@
       }
     },
     methods: {
+      onChange(){
+        this.$emit('filter', {term: this.name, value: this.value})
+      },
       ...mapActions(['setFilterTerms'])
     }
   }
 </script>
-
-<style scoped>
-
-</style>

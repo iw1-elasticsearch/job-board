@@ -4,17 +4,17 @@
         <div class="flex flex-wrap justify-between">
             <div class="w-1/2">
                 <FormGroup :label-name="contract.label">
-                    <Select :options="contract.options" :name="contract.name"/>
+                    <Select :options="contract.options" :name="contract.name" @filter="setFilterTerms"/>
                 </FormGroup>
             </div>
             <div class="w-1/2">
                 <FormGroup :label-name="job_title.label">
-                    <Select :options="job_title.options" :name="job_title.name"/>
+                    <Select :options="job_title.options" :name="job_title.name" @filter="setFilterTerms"/>
                 </FormGroup>
             </div>
             <div class="w-1/2">
                 <FormGroup :label-name="city.label">
-                    <Select :options="city.options" :name="city.name"/>
+                    <Select :options="city.options" :name="city.name" @filter="setFilterTerms"/>
                 </FormGroup>
             </div>
             <div class="w-1/2">
@@ -24,12 +24,12 @@
             </div>
             <div class="w-1/2">
                 <FormGroup :label-name="nb_employees.label">
-                    <InputRange :min="nb_employees.min" :max="nb_employees.max" :name="nb_employees.name"/>
+                    <InputRange :min="nb_employees.min" :max="nb_employees.max" :name="nb_employees.name" @filter="setFilterRanges"/>
                 </FormGroup>
             </div>
             <div class="w-1/2">
                 <FormGroup :label-name="salary.label">
-                    <InputRange :min="salary.min" :max="salary.max" :step="salary.step" :name="salary.name"/>
+                    <InputRange :min="salary.min" :max="salary.max" :step="salary.step" :name="salary.name" @filter="setFilterRanges"/>
                 </FormGroup>
             </div>
         </div>
@@ -41,6 +41,7 @@
   import Select from './Select'
   import InputDate from './InputDate'
   import InputRange from './InputRange'
+  import {mapActions} from "vuex";
 
   export default {
     components: {
@@ -82,6 +83,9 @@
           step: 5000
         }
       }
+    },
+    methods: {
+      ...mapActions(['setFilterTerms', 'setFilterRanges'])
     }
   }
 </script>

@@ -1,13 +1,12 @@
 <template>
     <div class="flex flex-col">
-        <input class="py-1" type="range" :min="min" :max="max" :step="step" v-model="from" @change="setFilterRanges({name, from, to})">
-        <input class="py-1" type="range" :min="min" :max="max" :step="step" v-model="to" @change="setFilterRanges({name, from, to})">
+        <input class="py-1" type="range" :min="min" :max="max" :step="step" v-model="from" @change="onChange">
+        <input class="py-1" type="range" :min="min" :max="max" :step="step" v-model="to" @change="onChange">
         <span>De {{ from }} à {{ to }}</span>
     </div>
 </template>
 
 <script>
-  import {mapActions} from "vuex";
 
   export default {
     name: "InputRange",
@@ -24,7 +23,9 @@
       }
     },
     methods: {
-      ...mapActions(['setFilterRanges'])
+      onChange(){
+        this.$emit('filter', {name: this.name, from: this.from, to: this.to})
+      }
     }
   }
 </script>
