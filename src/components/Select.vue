@@ -1,5 +1,5 @@
 <template>
-    <select name="" id="" class="bg-gray-300 p-2 rounded" v-model="value"
+    <select name="" id="" class="bg-gray-300 p-2 rounded" v-model="localValue"
             @change.prevent="onChange"
     >
         <option value=""></option>
@@ -15,15 +15,17 @@
     props: {
       options: Array,
       name: String,
+      value: String
     },
     data() {
       return {
-        value: ''
+        localValue: ''
       }
     },
     methods: {
-      onChange(){
-        this.$emit('filter', {term: this.name, value: this.value})
+      onChange(e){
+        this.$emit('update:value', e.target.value);
+        this.$emit('filter', {term: this.name, value: this.localValue})
       },
       ...mapActions(['setFilterTerms'])
     }

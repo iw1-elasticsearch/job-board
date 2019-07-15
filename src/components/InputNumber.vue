@@ -1,5 +1,5 @@
 <template>
-    <input type="number" class="bg-gray-300 p-2 rounded" :min="min" :max="max" v-model="value">
+    <input type="number" class="bg-gray-300 p-2 rounded" :min="min" :max="max" v-model="localValue" @change="onChange">
 </template>
 
 <script>
@@ -7,11 +7,17 @@
     name: "InputNumber",
     props: {
       min: Number,
-      max: Number
+      max: Number,
+      value: Number,
     },
     data(){
       return {
-        value: this.min
+        localValue: this.min
+      }
+    },
+    methods: {
+      onChange(e){
+        this.$emit('update:value', e.target.value)
       }
     }
   }
