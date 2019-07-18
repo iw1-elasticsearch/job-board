@@ -4,9 +4,9 @@
         <button id="show-modal" class="bg-green-300 rounded text-green-900 p-2 font-semibold" @click="showModal = true">
             Ajouter une annonce
         </button>
-        <modal v-if="showModal" @close="showModal = false">
+        <modal v-if="showModal">
             <div slot="body">
-                <OfferForm/>
+                <OfferForm @close="showModal = false"/>
             </div>
             <p class="text-xl text-green-500 font-bold" slot="header">Ajouter une annonce</p>
         </modal>

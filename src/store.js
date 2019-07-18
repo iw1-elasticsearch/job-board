@@ -15,11 +15,7 @@ export const store = new Vuex.Store({
     ],
   },
   getters: {
-    countOffers: state => state.offers.length,
-    offers: state => state.offers,
-    query: state => state.query,
-    filterTerms: state => state.filterTerms,
-    filterRanges: state => state.filterRanges
+    countOffers: state => state.offers.length
   },
   mutations: {
     setOffers(state, offers) {

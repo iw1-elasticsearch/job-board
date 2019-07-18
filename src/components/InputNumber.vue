@@ -8,7 +8,7 @@
     props: {
       min: Number,
       max: Number,
-      value: Number,
+      value: String,
     },
     data(){
       return {

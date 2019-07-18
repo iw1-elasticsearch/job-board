@@ -14,7 +14,7 @@ import Header from './components/Header'
 import SearchInput from './components/SearchInput'
 import Filters from './components/Filters'
 import Results from './components/Results'
-import { mapGetters, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'app',
@@ -25,7 +25,7 @@ export default {
     Results
   },
   computed: {
-    ...mapGetters([
+    ...mapState([
       'offers'
     ])
   },
