@@ -82,13 +82,13 @@
           name: 'Salaire',
           min: 30000,
           max: 60000,
-          value: ''
+          value: '30000'
         },
         nb_employees: {
           name: "Nombre d'employées",
           min: 10,
           max: 500,
-          value: ''
+          value: '10'
         },
         company: {
           name: 'Entreprise',

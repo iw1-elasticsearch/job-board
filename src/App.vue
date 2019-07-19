@@ -4,6 +4,7 @@
     <div class="w-128 mx-auto py-4">
       <SearchInput/>
       <Filters/>
+      <Facets/>
       <Results :offers="offers"/>
     </div>
   </div>
@@ -14,6 +15,7 @@ import Header from './components/Header'
 import SearchInput from './components/SearchInput'
 import Filters from './components/Filters'
 import Results from './components/Results'
+import Facets from './components/Facets'
 import { mapState, mapActions } from 'vuex'
 
 export default {
@@ -22,7 +24,8 @@ export default {
     Header,
     SearchInput,
     Filters,
-    Results
+    Results,
+    Facets
   },
   computed: {
     ...mapState([
