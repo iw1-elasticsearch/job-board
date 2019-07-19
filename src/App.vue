@@ -1,11 +1,15 @@
 <template>
   <div>
     <Header></Header>
-    <div class="w-128 mx-auto py-4">
-      <SearchInput/>
-      <Filters/>
-      <Facets/>
-      <Results :offers="offers"/>
+    <div class="flex p-10 w-auto">
+      <div class="flex px-10">
+        <Facets/>
+      </div>
+      <div class="w-128">
+        <SearchInput/>
+        <Filters/>
+        <Results :offers="offers"/>
+      </div>
     </div>
   </div>
 </template>

@@ -1,13 +1,13 @@
 <template>
-    <div>
-        <div v-for="(properties, name) in fields" :key="name">
-            <p>{{ name }}</p>
-            <p v-for="property in properties.buckets">
-                {{ property.key }}, <strong>{{ property.doc_count }}</strong>
+    <div class="w-64">
+        <div v-for="(properties, name) in fields" :key="name" class="mb-4">
+            <p class="mb-2 uppercase text-gray-700 font-bold">{{ fieldsMap[name] }}</p>
+            <p v-for="(property, index) in properties.buckets" :key="index"
+               class="bg-gray-300 mb-2 p-2 rounded-lg text-gray-700"
+            >
+                <span class="font-semibold mr-2">{{ property.key }}</span> <strong class="bg-green-200 text-green-900 px-3 py-1 rounded">{{ property.doc_count }}</strong>
             </p>
-
         </div>
-        <button @click.prevent="getAggregations">CLICK</button>
     </div>
 </template>
 
@@ -17,14 +17,24 @@
     name: "Facets",
     data(){
       return {
-        fields: []
+        fields: [],
+        fieldsMap: {
+          "salary": "salaire",
+          "nb_employees": "Nombre d'employées",
+          "job_title": "Poste",
+          "contract": "Contrat",
+          "city": "Ville"
+        }
       }
+    },
+    mounted(){
+      this.getAggregations();
     },
     methods: {
       getAggregations() {
         fetchGet({
           "aggs": {
-            "price_ranges": {
+            "salary": {
               "range": {
                 "field": "salary",
                 "ranges": [

@@ -40,7 +40,7 @@
         </FormGroup>
         <div>
             <button type="submit" class="bg-green-200 text-green-900 font-bold p-2 mt-2 rounded mr-3">Envoyer</button>
-            <button class="bg-gray-400 text-gray-900 font-bold p-2 mt-2 rounded" @click="closeModal">Retour</button>
+            <button class="bg-gray-400 text-gray-900 font-bold p-2 mt-2 rounded" @click.prevent="closeModal">Retour</button>
         </div>
     </form>
 
