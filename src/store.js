@@ -94,14 +94,29 @@ export const store = new Vuex.Store({
       state.facets = facets;
     },
     setFilterTerms(state, {term, value}){
-      state.filterTerms = state.filterTerms.filter((filter) => {
-        return !(`${term}.keyword` in filter.terms);
-      });
-      if(value === ""){
-        return;
+      let isNew = true;
+      let deletedIndex = null;
+      state.filterTerms = state.filterTerms.map((filter, index) => {
+        if(`${term}.keyword` in filter.terms ) {
+          isNew = false;
+          if(!filter.terms[`${term}.keyword`].includes(value)){
+            filter.terms[`${term}.keyword`].push(value);
+          } else {
+            filter.terms[`${term}.keyword`] = filter.terms[`${term}.keyword`].filter(word => {
+              return word !== value
+            });
+            if(filter.terms[`${term}.keyword`].length === 0){
+              deletedIndex = index;
+            }
+          }
+        }
+        return filter;
+      })
+      .filter((filter, index) => index !== deletedIndex);
+      if(true === isNew){
+        const newTerm = {terms : { [`${term}.keyword`]: [value] } };
+        state.filterTerms = [ ...state.filterTerms, newTerm ];
       }
-      const newTerm = {terms : { [`${term}.keyword`]: [value] } };
-      state.filterTerms = [ ...state.filterTerms, newTerm ]
     },
     setFilterRanges(state, {name, from, to}){
       state.filterRanges.forEach(filter => {
