@@ -26,7 +26,7 @@
       check: function() {
         let { from, to, key } = this.property;
         this.checked = !this.checked;
-        if(from && to){
+        if(from || to){
             this.$store.dispatch('setFilterRanges', {
               name: this.name,
               from: from,
