@@ -8,8 +8,6 @@
 </template>
 
 <script>
-  import { mapActions } from "vuex";
-
   export default {
     name: "Select",
     props: {
@@ -26,8 +24,7 @@
       onChange(e){
         this.$emit('update:value', e.target.value);
         this.$emit('filter', {term: this.name, value: this.localValue})
-      },
-      ...mapActions(['setFilterTerms'])
+      }
     }
   }
 </script>

@@ -8,11 +8,77 @@ export const store = new Vuex.Store({
   state: {
     offers: [],
     query: '',
+    facets: [],
     filterTerms: [],
     filterRanges: [
       { "range": { "salary": { "gte": 30000, "lte": 60000 } } },
       { "range": { "nb_employees": { "gte": 10, "lte": 500 } } },
     ],
+    aggs: {
+      "aggs": {
+        "salary": {
+          "range": {
+            "field": "salary",
+            "ranges": [
+              {
+                "from": 30000,
+                "to": 45000
+              },
+              {
+                "from": 45000,
+                "to": 60000
+              },
+              {
+                "from": 60000
+              }
+            ]
+          }
+        },
+        "nb_employees": {
+          "range": {
+            "field": "nb_employees",
+            "ranges": [
+              {
+                "from": 10,
+                "to": 50
+              },
+              {
+                "from": 50,
+                "to": 200
+              },
+              {
+                "from": 200,
+                "to": 500
+              },
+              {
+                "from": 500
+              }
+            ]
+          }
+        },
+        "job_title": {
+          "terms": {
+            "field": "job_title.keyword",
+            "min_doc_count": 0,
+            "order": { "_key": "asc" }
+          }
+        },
+        "contract": {
+          "terms": {
+            "field": "contract.keyword",
+            "min_doc_count": 0,
+            "order": { "_key": "asc" }
+          }
+        },
+        "city": {
+          "terms": {
+            "field": "city.keyword",
+            "min_doc_count": 0,
+            "order": { "_key": "asc" }
+          }
+        }
+      }
+    },
   },
   getters: {
     countOffers: state => state.offers.length
@@ -24,14 +90,17 @@ export const store = new Vuex.Store({
     setQuery(state, query) {
       state.query = query;
     },
+    setFacets(state, facets) {
+      state.facets = facets;
+    },
     setFilterTerms(state, {term, value}){
       state.filterTerms = state.filterTerms.filter((filter) => {
-        return !(`${term}.keyword` in filter.term);
+        return !(`${term}.keyword` in filter.terms);
       });
       if(value === ""){
         return;
       }
-      const newTerm = {term : { [`${term}.keyword`]: value } };
+      const newTerm = {terms : { [`${term}.keyword`]: [value] } };
       state.filterTerms = [ ...state.filterTerms, newTerm ]
     },
     setFilterRanges(state, {name, from, to}){
@@ -53,10 +122,12 @@ export const store = new Vuex.Store({
               "match_all": {}
             },
             "filter": [
-              ...state.filterRanges
+              ...state.filterRanges,
+              ...state.filterTerms,
             ]
           }
-        }
+        },
+        ...state.aggs
       };
       if(state.query !== ""){
         delete body.query.bool.must.match_all;
@@ -65,14 +136,13 @@ export const store = new Vuex.Store({
           "fields": ["title", "description", "company", "job_title", "skills", "contract"]
         }
       }
-      if(Object.entries(state.filterTerms).length > 0){
-        body.query.bool.filter = [...body.query.bool.filter, state.filterTerms];
-      }
-      console.log(JSON.stringify(body, null, 2));
+      console.log(JSON.stringify(body.query.bool.filter, null, 2));
       fetchGet(body)
       .then(data => {
         const offers = data.hits.hits.map(offer => offer._source);
+        const facets = data.aggregations;
         commit('setOffers', offers);
+        commit('setFacets', facets);
       })
       .catch(error => error)
     },
