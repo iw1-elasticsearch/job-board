@@ -19,7 +19,6 @@
         this.$emit('update:value', e.target.value)
       }
     }
-
   }
 </script>
 

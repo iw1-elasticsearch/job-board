@@ -11,8 +11,8 @@ export const store = new Vuex.Store({
     facets: [],
     filterTerms: [],
     filterRanges: [
-      { "range": { "salary": { "gte": 30000, "lte": 60000 } } },
-      { "range": { "nb_employees": { "gte": 10, "lte": 500 } } },
+      // { "range": { "salary": { "gte": 30000, "lte": 60000 } } },
+      // { "range": { "nb_employees": { "gte": 10, "lte": 500 } } },
     ],
     aggs: {
       "aggs": {
@@ -119,12 +119,20 @@ export const store = new Vuex.Store({
       }
     },
     setFilterRanges(state, {name, from, to}){
-      state.filterRanges.forEach(filter => {
-        if(name in filter.range){
-          filter.range[name]['gte'] = from;
-          filter.range[name]['lte'] = to;
+      // state.filterRanges.forEach(filter => {
+      //   if(name in filter.range){
+      //     filter.range[name]['gte'] = from;
+      //     filter.range[name]['lte'] = to;
+      //   }
+      // });
+      state.filterRanges.push({
+        range: {
+          [name]: {
+            gte: from,
+            lte: to
+          }
         }
-      });
+      })
     }
   },
   actions: {

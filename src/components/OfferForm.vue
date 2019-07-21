@@ -12,8 +12,8 @@
             <FormGroup :label-name="salary.name" class="w-1/2">
                 <InputNumber :min="salary.min" :max="salary.max" :value.sync="salary.value"/>
             </FormGroup>
-            <FormGroup :label-name="city.name" class="w-1/2" >
-                <InputText :placeholder="city.placeholder" :value.sync="city.value"/>
+            <FormGroup :label-name="skills.name" class="w-1/2" >
+                <InputText :placeholder="skills.placeholder" :value.sync="skills.value"/>
             </FormGroup>
         </div>
         <div class="flex">
@@ -32,8 +32,8 @@
                 <InputDate :value.sync="start_date.value"/>
             </FormGroup>
         </div>
-        <FormGroup :label-name="skills.name" class="w-full">
-            <InputText :placeholder="skills.placeholder" :value.sync="skills.value"/>
+        <FormGroup :label-name="city.name" class="w-full">
+            <InputAlgolia :placeholder="city.placeholder" :value.sync="city.value" :geo.sync="city.geo"/>
         </FormGroup>
         <FormGroup :label-name="description.name" class="w-full">
             <TextArea :placeholder="description.placeholder" :value.sync="description.value"/>
@@ -53,6 +53,7 @@
   import Select from './Select'
   import TextArea from "./TextArea";
   import InputDate from "./InputDate";
+  import InputAlgolia from './InputAlgolia';
 
   import { mapMutations, mapState } from "vuex";
 
@@ -64,7 +65,8 @@
       InputText,
       InputNumber,
       Select,
-      InputDate
+      InputDate,
+      InputAlgolia
     },
     data(){
       return {
@@ -98,7 +100,8 @@
         city: {
           name: 'Ville',
           placeholder: 'Paris',
-          value: ''
+          value: '',
+          geo: {}
         },
         description: {
           name: 'Description',
@@ -136,6 +139,10 @@
           company: this.company.value,
           nb_employees: this.nb_employees.value,
           city: this.city.value,
+          location: {
+            lat: this.city.geo.lat,
+            lon: this.city.geo.lon
+          },
           salary: this.salary.value,
           job_title: this.job_title.value,
           skills: this.skills.value.split(',').map(skill => { skill.trim(); skill.toUpperCase(); return skill; })
