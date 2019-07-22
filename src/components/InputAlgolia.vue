@@ -18,24 +18,26 @@
         localValue: '',
       }
     },
-    // mounted() {
-    //   const fixedOptions = {
-    //     appId,
-    //     apiKey,
-    //     container: document.querySelector('#address-input'),
-    //   };
-    //   const reconfigurableOptions = {
-    //     language: 'fr',
-    //     countries: 'fr',
-    //     aroundLatLngViaIP: true
-    //   };
-    //   places(fixedOptions).configure(reconfigurableOptions);
-    // },
+    mounted() {
+      const fixedOptions = {
+        appId,
+        apiKey,
+        container: document.querySelector('#address-input'),
+      };
+      const reconfigurableOptions = {
+        language: 'fr',
+        countries: 'fr',
+        aroundLatLngViaIP: true
+      };
+      places(fixedOptions).configure(reconfigurableOptions);
+    },
     methods: {
       log(e) {
-        fetch('https://places-dsn.algolia.net/1/places/query', {
+        const url = new URL('https://places-dsn.algolia.net/1/places/query');
+        const params = {query: e.target.value};
+        url.search = new URLSearchParams(params);
+        fetch(url, {
           method: 'GET',
-          query: this.localValue,
           headers: {
             'X-Algolia-Application-Id': appId,
             'X-Algolia-API-Key': apiKey
@@ -51,7 +53,3 @@
     }
   }
 </script>
-
-<style scoped>
-
-</style>

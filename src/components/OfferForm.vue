@@ -134,18 +134,21 @@
       },
       submit(){
         const body = {
+          description: this.description.value,
           title: this.title.value,
           contract: this.contract.value,
           company: this.company.value,
           nb_employees: this.nb_employees.value,
           city: this.city.value,
-          location: {
-            lat: this.city.geo.lat,
-            lon: this.city.geo.lon
+          localisation: {
+            geo: {
+              lat: this.city.geo.lat,
+              lon: this.city.geo.lon
+            }
           },
           salary: this.salary.value,
           job_title: this.job_title.value,
-          skills: this.skills.value.split(',').map(skill => { skill.trim(); skill.toUpperCase(); return skill; })
+          skills: this.skills.value.split(',').map(skill => { skill.trim(); skill.toUpperCase(); return skill; }),
         };
         fetch('http://localhost:9200/job_board/_doc', {
           method: 'POST',

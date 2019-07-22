@@ -44,9 +44,7 @@ export default {
     this.fetchOffers();
   },
   methods: {
-    ...mapActions([
-      'fetchOffers'
-    ])
+    ...mapActions(['fetchOffers']),
   }
 }
 </script>
