@@ -159,7 +159,7 @@ export const store = new Vuex.Store({
           "fields": ["title", "description", "company", "job_title", "skills", "contract"]
         }
       }
-      console.log(JSON.stringify(body.query.bool.filter, null, 2));
+      console.log(JSON.stringify(body, null, 2));
       fetchGet(body)
       .then(data => {
         const offers = data.hits.hits.map(offer => offer._source);

@@ -18,19 +18,19 @@
         localValue: '',
       }
     },
-    mounted() {
-      const fixedOptions = {
-        appId,
-        apiKey,
-        container: document.querySelector('#address-input'),
-      };
-      const reconfigurableOptions = {
-        language: 'fr',
-        countries: 'fr',
-        aroundLatLngViaIP: true
-      };
-      places(fixedOptions).configure(reconfigurableOptions);
-    },
+    // mounted() {
+    //   const fixedOptions = {
+    //     appId,
+    //     apiKey,
+    //     container: document.querySelector('#address-input'),
+    //   };
+    //   const reconfigurableOptions = {
+    //     language: 'fr',
+    //     countries: 'fr',
+    //     aroundLatLngViaIP: true
+    //   };
+    //   places(fixedOptions).configure(reconfigurableOptions);
+    // },
     methods: {
       log(e) {
         const url = new URL('https://places-dsn.algolia.net/1/places/query');
